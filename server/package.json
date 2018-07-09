@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "React final project REST Api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "React",
+    "Express"
+  ],
+  "author": "Alex Ivanov",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "1.17.2",
+    "cors": "2.8.3",
+    "express": "4.15.3",
+    "jsonwebtoken": "7.4.1",
+    "mongodb": "3.1.1",
+    "mongoose": "5.2.1",
+    "passport": "0.3.2",
+    "passport-local": "1.0.0",
+    "validator": "7.2.0"
+  }
+}

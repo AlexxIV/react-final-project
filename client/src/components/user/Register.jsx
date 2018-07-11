@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import fetcher from '../../utilities/fetcher';
 
 export default class Register extends Component {
     constructor(props) {
@@ -20,22 +21,33 @@ export default class Register extends Component {
     }
 
     handleSubmit = (e) => {
-        fetch('http')
+        fetch('http://localhost:5000/auth/signup', 
+            {  
+                method: 'POST',
+                body: JSON.stringify(this.state.form),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+        .then(data => data.json())
+        .then(response => console.log(response))
     }
+
     render() {
         return (
             <form>
             <div className="form-group">
-                <label for="inputUsername">Email address</label>
+                <label for="input-username">Email address</label>
                 <input data-name="username" type="username" onChange={this.handleChange} className="form-control" id="input-username" placeholder="Enter Username" />
             </div>
             <div className="form-group">
-                <label for="inputPassword">Password</label>
+                <label for="input-password">Password</label>
                 <input data-name="password" type="password" onChange={this.handleChange} className="form-control" id="input-password" placeholder="Password" />
             </div>
             <div className="form-group">
-                <label for="exampleInputPassword1">Repeat password</label>
-                <input data-name="passwordRepeat" type="password" onChange={this.handleChange} className="form-control" id="input-passwordRepeat" placeholder="Repeat Password" />
+                <label for="input-repeat-password">Repeat password</label>
+                <input data-name="repeatPassword" type="password" onChange={this.handleChange} className="form-control" id="input-repeat-password" placeholder="Repeat Password" />
             </div>
             <button type="button" onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
             </form>

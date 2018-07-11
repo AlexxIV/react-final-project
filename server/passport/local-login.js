@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
+const Encryption = require('../utilities/encryption')
 const PassportLocalStrategy = require('passport-local').Strategy
 
 module.exports = new PassportLocalStrategy({
@@ -14,7 +15,8 @@ module.exports = new PassportLocalStrategy({
       return done(error)
     }
 
-    const isMatch = existingUser.password === password
+    const existingUserPasswordHash = Encryption.generateHashedPassword(existingUser.salt, password)
+    const isMatch = existingUser.password === existingUserPasswordHash
 
     if (!isMatch) {
       const error = new Error('Incorrect username or password')

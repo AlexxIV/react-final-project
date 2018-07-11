@@ -1,14 +1,17 @@
 const PassportLocalStrategy = require('passport-local').Strategy
 const User = require('../models/User');
-const encryption = require('../utilities/encryption');
+const Encryption = require('../utilities/encryption');
 
 module.exports = new PassportLocalStrategy({
   session: false,
   passReqToCallback: true
 }, (req, username, password, done) => {
+    let salt = Encryption.generateSalt();
+    let passwordHash = Encryption.generateHashedPassword(salt, password);
     let userData = {
       username: username,
-      password: password
+      password: passwordHash,
+      salt: salt
     }
     User.create(userData, (err) => {
       if (err) {

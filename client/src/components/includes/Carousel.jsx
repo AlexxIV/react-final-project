@@ -1,23 +1,24 @@
 import React from 'react';
 import { CarouselProvider, Slider, Slide, Dot, Image, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+import '../../styles/includes/carousel.scss';
 
 export default class Carousel extends React.Component {
   render() {
     return (
       <CarouselProvider
-        naturalSlideWidth={50}
-        naturalSlideHeight={25}
+        naturalSlideWidth={1}
+        naturalSlideHeight={1}
         totalSlides={3}
-        //isPlaying={true}
-        interval={1000}
+        // isPlaying={true}
+        interval={5000}
+        dragEnabled={false}
       >        
         <Slider>
-          <Slide index={0}><Image src={"https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"}/></Slide>
-          <Slide index={1}>I am the second Slide.</Slide>
-          <Slide index={2}>I am the third Slide.</Slide>
+          {/* {this.props.hotels.map((hotel, index) => <Slide className="custom-carousel-slide" index={index} key={index}><Hotel hotel={hotel} /> </Slide>)} */}
+          {/* <Slide index={0}></Slide> */}
         </Slider>
-        <Dot />
+        {/* <DotGroup /> */}
       </CarouselProvider>
     );
   }

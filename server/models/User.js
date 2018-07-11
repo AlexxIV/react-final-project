@@ -6,20 +6,8 @@ const BOOLEAN = MONGOOSE.Schema.Types.Boolean;
 const USER_SCHEMA = MONGOOSE.Schema({
     username: { type: STRING, required: true, unique: true},
     password: { type: STRING, require: true },
-    // salt: { type: STRING, required: true },
+    salt: { type: STRING, required: true },
     isAdmin: { type: BOOLEAN, default: false}
-});
-
-USER_SCHEMA.method({
-    authenticate: function (password) {
-        let hashedPassword = ENCRYPTION.generateHashedPassword(this.salt, password);
-
-        if (hashedPassword === this.password) {
-            return true;
-        }
-
-        return false;
-    }
 });
 
 const USER = MONGOOSE.model('User', USER_SCHEMA);
@@ -32,11 +20,12 @@ module.exports.seedAdmin = () => {
         if (admin) {
             return;
         } else {
-            // let salt = ENCRYPTION.generateSalt();
-            // let passwordHash = ENCRYPTION.generateHashedPassword(salt, 'admin');
+            let salt = ENCRYPTION.generateSalt();
+            let passwordHash = ENCRYPTION.generateHashedPassword(salt, 'admin');
             let adminUser = {
                 username: 'admin',
-                password: 'admin',
+                password: passwordHash,
+                salt: salt,
                 isAdmin: true
             };
 
@@ -51,11 +40,12 @@ module.exports.seedUser = () => {
         if (user) {
             return;
         } else {
-            // let salt = ENCRYPTION.generateSalt();
-            // let passwordHash = ENCRYPTION.generateHashedPassword(salt, 'test');
+            let salt = ENCRYPTION.generateSalt();
+            let passwordHash = ENCRYPTION.generateHashedPassword(salt, 'test');
             let userData = {
                 username: 'test',
-                password: 'test'
+                password: passwordHash,
+                salt: salt,
             };
 
             USER.create(userData).then((user) => {

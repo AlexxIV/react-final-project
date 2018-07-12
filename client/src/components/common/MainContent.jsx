@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import HotelsIndex from '../hotels/HotelsIndex';
 import Carousel from '../includes/Carousel';
 import { Route } from 'react-router-dom';
+import '../../styles/common/main.scss';
 
 export default class MainContent extends Component{
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
-            <div>
+            <div className="main-content-area">
                 <Route path='/hotels' 
-                    render = {(props) => (
-                        <HotelsIndex {...props} />
+                    render = {(routerProps) => (
+                        <HotelsIndex {...routerProps} {...this.props} />
                     )} />
+                <Route exact path='/' render= {() => (<h1>AZIS</h1>)} />
             </div>
         )
     }

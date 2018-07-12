@@ -1,18 +1,23 @@
 import React from 'react';
+import DrawHotel from './DrawHotel';
 
 export default class Details extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            hotel: {}
+        }
     }
-    
-    componentDidUpdate = () => {
+    componentDidMount() {
+        this.setState({
+            hotel: this.props.hotel
+        })
     }
-
     render() {
         return (
             <div>
-                    <h1>Azis</h1>
+                <DrawHotel link={false} hotel={this.state.hotel} {...this.props} />
             </div>
-         )
+        )
     }
 }

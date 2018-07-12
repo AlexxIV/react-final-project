@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import UserForm from '../includes/UserForm';
 
-export default class Login extends Component {
+export default class User extends Component {
     constructor(props) {
         super(props);
 
@@ -20,7 +21,8 @@ export default class Login extends Component {
         });
     }
 
-    handleSubmit = (e) => {
+    handleLogin = (e) => {
+        e.preventDefault()
         fetch('http://localhost:5000/auth/login',
             {
                 method: 'POST',
@@ -40,20 +42,32 @@ export default class Login extends Component {
             }
         })
         .catch (err => console.log(err))
+    }
+    handleRegister = (e) => {
+        e.preventDefault()
+        fetch('http://localhost:5000/auth/signup', 
+            {  
+                method: 'POST',
+                body: JSON.stringify(this.state.form),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+        .then(data => data.json())
+        .then(response => {
+            console.log(response);
+            if(response.success) {
+                this.props.history.push("/");
+            }
+        })
     }   
     render() {
         return (
-            <form>
-            <div className="form-group">
-                <label for="input-username">Email address</label>
-                <input data-name="username" type="username" onChange={this.handleChange} className="form-control" id="input-username" placeholder="Enter Username" />
-            </div>
-            <div className="form-group">
-                <label for="input-password">Password</label>
-                <input data-name="password" type="password" onChange={this.handleChange} className="form-control" id="input-password" placeholder="Password" />
-            </div>
-            <button type="button" onClick={this.handleSubmit} className="btn btn-primary">Submit</button>
-            </form>
+            this.props.login ? 
+            (<UserForm isRegister={false} submitHandler={this.handleLogin} handleChange={this.handleChange} />) :
+
+            (<UserForm isRegister={true} submitHandler={this.handleRegister} handleChange={this.handleChange} />) 
         )
     }
 }

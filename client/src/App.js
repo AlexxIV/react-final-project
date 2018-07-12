@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Navigation from './components/common/Navigation';
-import Login from './components/user/Login';
-import Register from './components/user/Register';
+import User from './components/user/User';
+import Logout from './components/user/Logout';
 import Footer from './components/common/Footer';
 import MainContent from './components/common/MainContent';
 import './styles/App.scss';
@@ -16,6 +16,7 @@ class App extends Component {
       username: '',
       loggedIn: null,
       isAdmin: null,
+      userToken: null,
     }
   }
     componentDidMount = () => {
@@ -33,7 +34,8 @@ class App extends Component {
           this.setState({
             username: response.user.username,
             loggedIn: true,
-            isAdmin: response.user.isAdmin
+            isAdmin: response.user.isAdmin,
+            userToken: userToken
           })
         })
         .catch (err => console.log(err))
@@ -52,14 +54,25 @@ class App extends Component {
         isAdmin: user.isAdmin,
       })
     }
+    handleLogOut = () => {
+      this.setState({
+        username: 'Guest',
+        loggedIn: false,
+        isAdmin: false
+      })
+    }
   render() {
     return (
         <div className="App container">
-          <Navigation isAdmin={this.state.isAdmin} loggedIn={this.state.loggedIn} username={this.state.username} />
+          <Navigation {...this.state} />
           <Route path='/login' 
-          render={(props) => <Login {...props} updateUserState={this.updateUserState} />} />
-          <Route path='/register' component={Register} />
-          <MainContent isAdmin={this.state.isAdmin} loggedIn={this.state.loggedIn} />
+            render={(props) => <User {...props} updateUserState={this.updateUserState} login={true}/>} />
+          <Route path='/register' 
+            render={(props) => <User {...props} login={false} />} />
+          <Route path='/logout' render = {() => (
+            <Logout handleLogOut={this.handleLogOut}/>
+          )} />
+          <MainContent {...this.state} />
           <Footer />
         </div>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import AllHotels from './AllHotels';
-import Details from './Details'
+import Details from './Details';
 import { Route, Switch } from 'react-router-dom';
 
 export default class HotelsIndex extends React.Component {
@@ -10,6 +10,18 @@ export default class HotelsIndex extends React.Component {
         this.state = {
             hotels: []
         }
+    }
+    handleDelete = (id) => {
+        this.setState({
+            hotels: this.state.hotels.filter((hotel) => { 
+                return hotel._id !== id
+            })
+        })
+    }
+    handleEdit = (updatedHotel) => {
+        this.setState({
+            hotels: this.state.hotels.map(hotel => hotel._id === updatedHotel._id ? updatedHotel : hotel)
+        })
     }
     componentDidMount() {
         fetch('http://localhost:5000/hotels/all')
@@ -22,17 +34,19 @@ export default class HotelsIndex extends React.Component {
         <div className="row">
             <Switch>
                 <Route exact path='/hotels'
-                render = {() => (<AllHotels hotels={this.state.hotels} /> )} />
-                <Route exact path='/hotels/:hotelId'
-                render = {(props) => (<Details hotels={this.state.hotels} {...props} /> )} />
+                render = {() => (<AllHotels hotels={this.state.hotels} {...this.props} /> )} />
+                <Route 
+                    exact path='/hotels/:hotelId'
+                    render = {(props) => (
+                        <Details 
+                            hotel={this.state.hotels.find(hotel => 
+                                hotel._id === props.match.params.hotelId
+                            )} {...this.props} handleDelete={this.handleDelete} handleEdit={this.handleEdit}
+                        /> 
+                    )} 
+                />
             </Switch>
         </div>
-        //     <Route exact path='/hotels/all' 
-        //         render = {() => (this.state.hotels.map((hotel, index) => <Hotel  key={index} hotel={hotel} />)
-        //     )} />
-        //     <Route path='/hotels/hotel/:hotelId' 
-        //         render={(props) => <Details {...props} hotels={[this.state.hotels]} />} />
-        // </div>
     );
   }
 }

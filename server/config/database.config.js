@@ -17,4 +17,5 @@ module.exports = (config) => {
     require('../models/User').seedAdmin();
     require('../models/User').seedUser();
     require('../models/Hotel').seedHotels();
+    require('../models/Track').seedTracks();
 };

@@ -32,7 +32,7 @@ export default class AdminPanel extends React.Component {
       }
     render() {
         return (
-            <div className="admin-panel">
+            <div className="col-sm-6 admin-panel">
                 <button onClick={this.handleEdit} className="btn btn-success">EDIT</button>
                 <button onClick={this.handleDelete} className="btn btn-danger">DELETE</button>
 

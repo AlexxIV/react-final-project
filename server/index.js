@@ -6,7 +6,6 @@ const config = require('./config/config');
 const localSignupStrategy = require('./passport/local-signup')
 const localLoginStrategy = require('./passport/local-login')
 const authRoutes = require('./routes/auth')
-const authPokedex = require('./routes/pokedex')
 const currentUser = require('./routes/currentUser')
 const hotelRoutes = require('./routes/hotels')
 const trackRoutes = require('./routes/tracks')

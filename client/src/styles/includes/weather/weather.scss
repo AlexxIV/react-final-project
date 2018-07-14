@@ -1,0 +1,17 @@
+.weather-card {
+    width: 18rem;
+    border: none !important;
+    .weather-icon {
+        width: 75px;
+        height: 45px;
+        margin: 20px auto 0 auto;
+    }
+    .card-body {
+        .card-text {
+            font-weight: bold;
+            > span {
+                padding: 10px;
+            }
+        }
+    }
+}

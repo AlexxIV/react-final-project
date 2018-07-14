@@ -3,11 +3,13 @@ import { NavLink, Link } from 'react-router-dom';
 import Logo from '../../images/logo.png';
 import '../../styles/common/navigation.scss';
 import WelcomeBar from './WelcomeBar';
+import Weather from '../includes/Weather/Weather';
 
 export default class Navigation extends Component{
     render() {
         return (
-                <nav className="navbar navbar-expand-md navbar-light">
+            <header>
+                <nav className="navbar navbar-expand-lg navbar-light">
                     <Link className="navbar-brand" to="/">
                         <img src={Logo} alt="Logo" className="img-fluid"/>
                     </Link>
@@ -23,10 +25,14 @@ export default class Navigation extends Component{
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/hotels" exact activeClassName="active">Hotels</NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/tracks" exact activeClassName="active">SkiTracks</NavLink>
+                        </li>
                         </ul>
                         <WelcomeBar {...this.props}/>
                     </div>
                 </nav>
+            </header>
         )
     }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import Delete from './Delete';
 import Edit from './Edit'
+import Button from './simple/Button';
 
 
 export default class AdminPanel extends React.Component {
@@ -32,9 +33,9 @@ export default class AdminPanel extends React.Component {
       }
     render() {
         return (
-            <div className="admin-panel">
-                <button onClick={this.handleEdit} className="btn btn-success">EDIT</button>
-                <button onClick={this.handleDelete} className="btn btn-danger">DELETE</button>
+            <div className="col-sm-6 admin-panel">
+                <Button clickFunction={this.handleEdit} class={'btn-success'} text={'EDIT'} />
+                <Button clickFunction={this.handleDelete} class={'btn-danger'} text={'DELETE'} />
 
                 <div>
                     {this.state.showEdit ?

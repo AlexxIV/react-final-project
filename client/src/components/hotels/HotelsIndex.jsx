@@ -23,6 +23,14 @@ export default class HotelsIndex extends React.Component {
             hotels: this.state.hotels.map(hotel => hotel._id === updatedHotel._id ? updatedHotel : hotel)
         })
     }
+    
+    handleAdd = (newHotel) => {
+        this.setState(prevState => ({
+            
+            hotels: [...prevState.hotels, newHotel]
+        }))
+    }
+    
     componentDidMount() {
         fetch('http://localhost:5000/hotels/all')
         .then(rawData => rawData.json())
@@ -34,7 +42,7 @@ export default class HotelsIndex extends React.Component {
         <div className="row">
             <Switch>
                 <Route exact path='/hotels'
-                render = {() => (<AllHotels hotels={this.state.hotels} {...this.props} /> )} />
+                render = {(routerProps) => (<AllHotels {...routerProps} hotels={this.state.hotels} {...this.props} handleAdd={this.handleAdd} /> )} />
                 <Route 
                     exact path='/hotels/:hotelId'
                     render = {(props) => (

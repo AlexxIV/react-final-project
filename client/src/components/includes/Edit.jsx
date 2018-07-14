@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import HotelForm from './HotelForm';
+import Error from '../common/Error';
 
 export default class Edit extends Component {
     constructor(props) {
@@ -9,6 +11,10 @@ export default class Edit extends Component {
                 name: this.props.hotel.name,
                 description: this.props.hotel.description,
                 imageUrl: this.props.hotel.imageUrl
+            },
+            error: {
+                show: false,
+                text: ''
             }
         };
     }
@@ -45,28 +51,25 @@ export default class Edit extends Component {
                     this.props.history.push("/hotels/" + processedData.updatedHotel._id);
                 }
                 else {
-                    console.log('error')
+                    this.setState({
+                        error: {
+                            show: true,
+                            text: "Hotel name already exists!"
+                        }
+                    })
                 }
             })
             .catch(err => console.log(err))
     }
     render() {
         return (
-            <form onSubmit={this.handleEdit}>
-            <div className="form-group">
-                <label htmlFor="input-hotel-name">Hotel Name</label>
-                <input data-name="name" type="name" onChange={this.handleChange} className="form-control" id="input-hotel-name" placeholder="Hotel Name"  defaultValue={this.props.hotel.name}/>
+            <div>
+                <HotelForm cancleBtn={true} cancleBtnFn={this.props.hideForm} hotel={this.props.hotel} handleSubmit={this.handleEdit} handleChange={this.handleChange} btnText={'Edit'} />
+                {this.state.error.show ?
+                    <Error error={this.state.error.text} />
+                    : null
+                }
             </div>
-            <div className="form-group">
-                <label htmlFor="input-hotel-description">Hotel Decription</label>
-                <input data-name="description" type="description" onChange={this.handleChange} className="form-control" id="input-hotel-description" placeholder="Hotel Description" defaultValue={this.props.hotel.description} />
-            </div>
-            <div className="form-group">
-                <label htmlFor="input-hotel-imageUrl">Hotel Image</label>
-                <input data-name="imageUrl" type="imageUrl" onChange={this.handleChange} className="form-control" id="input-hotel-imageUrl" placeholder="Hotel Image" defaultValue={this.props.hotel.imageUrl} />
-            </div>
-            <button type="submit" className="btn btn-primary">Edit</button>
-            </form>
         )
     }
 }

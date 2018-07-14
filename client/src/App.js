@@ -5,6 +5,7 @@ import User from './components/user/User';
 import Logout from './components/user/Logout';
 import Footer from './components/common/Footer';
 import MainContent from './components/common/MainContent';
+import Weather from './components/includes/Weather/Weather';
 import './styles/App.scss';
 
 
@@ -19,16 +20,16 @@ class App extends Component {
       userToken: null,
     }
   }
-    componentDidMount = () => {
-      const userToken = localStorage.getItem('token')
-      if (typeof userToken !== undefined && userToken !== null && userToken !== '') {
+  componentDidMount = () => {
+    const userToken = localStorage.getItem('token')
+    if (typeof userToken !== undefined && userToken !== null && userToken !== '') {
       fetch('http://localhost:5000/currentUser',
-            {
-                headers: {
-                    'Authorization': 'Bearer ' + userToken
-                }
-            }
-        )
+        {
+          headers: {
+            'Authorization': 'Bearer ' + userToken
+          }
+        }
+      )
         .then(data => data.json())
         .then(response => {
           this.setState({
@@ -38,43 +39,55 @@ class App extends Component {
             userToken: userToken
           })
         })
-        .catch (err => console.log(err))
-      } else {
-        this.setState({
-          username: 'Guest',
-          loggedIn: false,
-          isAdmin: false
-        })
-      }
-    }
-   updateUserState = (user) => {
-      this.setState({
-        username: user.username,
-        loggedIn: true,
-        isAdmin: user.isAdmin,
-      })
-    }
-    handleLogOut = () => {
+        .catch(err => console.log(err))
+    } else {
       this.setState({
         username: 'Guest',
         loggedIn: false,
         isAdmin: false
       })
     }
+  }
+  updateUserState = (user) => {
+    this.setState({
+      username: user.username,
+      loggedIn: true,
+      isAdmin: user.isAdmin,
+    })
+  }
+  updateUserToken = (token) => {
+    this.setState({
+      userToken: token
+    })
+  }
+  handleLogOut = () => {
+    this.setState({
+      username: 'Guest',
+      loggedIn: false,
+      isAdmin: false,
+      userToken: null
+    })
+  }
   render() {
     return (
-        <div className="App container">
-          <Navigation {...this.state} />
-          <Route path='/login' 
-            render={(props) => <User {...props} updateUserState={this.updateUserState} login={true}/>} />
-          <Route path='/register' 
-            render={(props) => <User {...props} login={false} />} />
-          <Route path='/logout' render = {() => (
-            <Logout handleLogOut={this.handleLogOut}/>
-          )} />
+      <div className="App container">
+        <Navigation {...this.state} />
+        <div className="row"><div className="col-md-9 main-content">
           <MainContent {...this.state} />
-          <Footer />
+          <Route path='/login'
+            render={(props) => <User {...props} updateUserToken={this.updateUserToken} updateUserState={this.updateUserState} login={true} />} />
+          <Route path='/register'
+            render={(props) => <User {...props} login={false} />} />
+          <Route path='/logout' render={() => (
+            <Logout handleLogOut={this.handleLogOut} />
+          )} />
         </div>
+          <div className="col-md-3 side-bar">
+            <Weather />
+          </div>
+        </div>
+        <Footer />
+      </div>
     );
   }
 }

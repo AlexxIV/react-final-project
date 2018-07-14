@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Redirect } from 'react-router-dom'
 import Modal from 'react-modal';
+import Button from './simple/Button';
 
 const customStyles = {
     content: {
@@ -77,9 +76,11 @@ export default class Delete extends React.Component {
                     userToken={this.props.userToken}
                     {...this.props}
                 >
-                    <h1>ARE YOU SURE YOU WANT TO DELETE?</h1>
-                    <button onClick={this.handleDelete}>YES</button>
-                    <button onClick={this.closeModal}>NO</button>
+                    <div class="delete-modal-wrap text-center">
+                        <h2>ARE YOU SURE YOU WANT TO DELETE?</h2>
+                        <Button clickFunction={this.closeModal} class={'btn-success'} text={'NO'} />
+                        <Button clickFunction={this.handleDelete} class={'btn-danger'} text={'YES'} />
+                    </div>
                 </Modal>
             </div>
         );

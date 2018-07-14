@@ -4,22 +4,35 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 import '../../styles/includes/carousel.scss';
 
 export default class Carousel extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
+      <div>
+      <h2 className="carousel-title">Featured hotels</h2>
       <CarouselProvider
-        naturalSlideWidth={1}
+        naturalSlideWidth={2}
         naturalSlideHeight={1}
         totalSlides={3}
-        // isPlaying={true}
+        isPlaying={true}
         interval={5000}
         dragEnabled={false}
-      >        
-        <Slider>
-          {/* {this.props.hotels.map((hotel, index) => <Slide className="custom-carousel-slide" index={index} key={index}><Hotel hotel={hotel} /> </Slide>)} */}
-          {/* <Slide index={0}></Slide> */}
-        </Slider>
-        {/* <DotGroup /> */}
+        hasMasterSpinner={true}
+      >
+      <Slider
+      className={'carousel-slider-wrapper'}
+      >
+        {this.props.latestHotels.map((hotel, index) => 
+       <Slide key={index} index={index}>
+        <Image 
+          src={hotel.imageUrl}
+          />
+       </Slide>
+          )}
+          </Slider> 
       </CarouselProvider>
+      </div>
     );
   }
 }

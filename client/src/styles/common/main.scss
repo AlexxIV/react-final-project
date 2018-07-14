@@ -1,3 +1,12 @@
-.main-content-area {
-    min-height: 600px;
+.main-title {
+    color:rgba(32, 195, 164, 0.8);
+    margin: 5px auto 20px auto;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: 3.8rem;
+}
+.main-content {
+    .carousel-title {
+        font-family: 'Dancing Script', cursive;
+    }
 }

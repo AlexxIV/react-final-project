@@ -15,9 +15,7 @@ export default class Details extends React.Component {
     }
     render() {
         return (
-            <div>
                 <DrawHotel link={false} hotel={this.state.hotel} {...this.props} />
-            </div>
         )
     }
 }

@@ -38,14 +38,43 @@ router.post('/edit/:id', authCheck, adminCheck, (req, res) => {
             hotel.description = req.body.description,
             hotel.imageUrl = req.body.imageUrl
         hotel.save((err, updatedHotel) => {
-            if (err) return console.log(err);
+            if (err) {return res.status(200).json({
+                success: false
+            })
+            }
             return res.status(200).json({
                 success: true,
                 updatedHotel: updatedHotel
             })
         })
-    }).catch(err => console.log(err))
+    })
+    .catch(err => {
+        console.log(err)
+        return res.status(200).json({
+            success: false
+        })
+    })
 })
+
+router.post('/add', authCheck, (req, res) => {
+    console.log(req.body);
+
+    Hotel.create(req.body)
+        .then(hotel => {
+            console.log(`Created ${hotel.name} successfuly`)
+            return res.status(200).json({
+                success: true,
+                newHotel: hotel
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(200).json({
+                success: false
+            })
+        })
+})
+
 router.get('/latest', (req, res) => {
     Hotel.find({})
         .then((hotels) => {

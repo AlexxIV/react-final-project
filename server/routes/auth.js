@@ -73,7 +73,6 @@ router.post('/signup', (req, res, next) => {
       })
     }
     return passport.authenticate('local-signup', (err) => {
-      console.log('vlizam v authenticate');
       if (err) {
         console.log(err);
         return res.status(200).json({

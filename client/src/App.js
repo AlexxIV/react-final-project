@@ -64,7 +64,8 @@ class App extends Component {
     this.setState({
       username: 'Guest',
       loggedIn: false,
-      isAdmin: false
+      isAdmin: false,
+      userToken: null
     })
   }
   render() {
@@ -82,7 +83,7 @@ class App extends Component {
           )} />
         </div>
           <div className="col-md-3 side-bar">
-            {/* <Weather /> */}
+            <Weather />
           </div>
         </div>
         <Footer />

@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Redirect } from 'react-router-dom'
 import Modal from 'react-modal';
 
 const customStyles = {

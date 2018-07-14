@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UserForm from '../includes/UserForm';
+import Error from '../common/Error';
 import '../../styles/includes/user.scss';
 
 export default class User extends Component {
@@ -7,7 +8,11 @@ export default class User extends Component {
         super(props);
 
         this.state = {
-            form: {}
+            form: {},
+            error: {
+                show: false,
+                text: ''
+            }
         };
     }
 
@@ -42,6 +47,14 @@ export default class User extends Component {
                     this.props.updateUserToken(response.token);
                     this.props.history.push("/");
                 }
+                else {
+                    this.setState({
+                        error: {
+                            show: true,
+                            text: "Invalid credentials"
+                        }
+                    })
+                }
             })
             .catch(err => console.log(err))
     }
@@ -58,9 +71,16 @@ export default class User extends Component {
         )
             .then(data => data.json())
             .then(response => {
-                console.log(response);
                 if (response.success) {
                     this.props.history.push("/");
+                }
+                else {
+                    this.setState({
+                        error: {
+                            show: true,
+                            text: 'Error with register fields'
+                        }
+                    })
                 }
             })
     }
@@ -69,9 +89,24 @@ export default class User extends Component {
             <div className="row">
                 <div className="col-sm-9 forms">
                     {this.props.login ?
-                        <UserForm isRegister={false} title={'Login'} submitHandler={this.handleLogin} handleChange={this.handleChange} /> :
+                        (
+                            <div>
+                                <UserForm isRegister={false} title={'Login'} submitHandler={this.handleLogin} handleChange={this.handleChange} />
+                                {this.state.error.show ? <Error error={this.state.error.text}/>
+                                    : null}
+                            </div>
 
-                        <UserForm isRegister={true} title={'Register'} submitHandler={this.handleRegister} handleChange={this.handleChange} />}
+                        )
+
+
+                        : (
+                            <div>
+                                <UserForm isRegister={true} title={'Register'} submitHandler={this.handleRegister} handleChange={this.handleChange} />
+                                {this.state.error.show ? <Error error={this.state.error.text} />
+                                    : null}
+                            </div>
+                        )
+                    }
                 </div>
             </div>
 
